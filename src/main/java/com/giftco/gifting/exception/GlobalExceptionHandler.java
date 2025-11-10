@@ -21,6 +21,17 @@ public class GlobalExceptionHandler {
         this.httpClientProperties = httpClientProperties;
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponseDto> handleGlobalExceptionn(Exception exception, WebRequest webRequest) {
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(
+                webRequest.getDescription(false),
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                exception.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(AccountAlreadyExistsException.class)
     public ResponseEntity<ErrorResponseDto> handleAccountAlreadyExistsException(AccountAlreadyExistsException exception, WebRequest webRequest) {
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(
