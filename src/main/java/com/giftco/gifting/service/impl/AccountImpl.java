@@ -50,7 +50,16 @@ public class AccountImpl implements IAccountGiftingService {
 
         newAccount.setCreatedAt(LocalDateTime.now());
         newAccount.setCreatedBy(requestDto.getEmailAddress());
+        //validate email address
+        if (requestDto.getEmailAddress() == null || requestDto.getEmailAddress().isEmpty()) {
+            throw new IllegalArgumentException("Email address cannot be null or empty");
+        }
         newAccount.setEmailAddress(requestDto.getEmailAddress());
+
+        //validate username
+        if (requestDto.getUsername() == null || requestDto.getUsername().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be null or empty");
+        }
         newAccount.setUsername(requestDto.getUsername());
 
         //set account type
@@ -79,6 +88,10 @@ public class AccountImpl implements IAccountGiftingService {
         Accounts currentAccount = getAccountByEmail(emailAddress);
         //then update the fields and save account
         if (currentAccount != null) {
+            //validate email address
+            if (requestDto.getEmailAddress() == null || requestDto.getEmailAddress().isEmpty()) {
+                throw new IllegalArgumentException("Email address cannot be null or empty");
+            }
             currentAccount.setEmailAddress(requestDto.getEmailAddress());
             currentAccount.setUsername(requestDto.getUsername());
             currentAccount.setUpdatedAt(LocalDateTime.now());
